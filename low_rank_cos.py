@@ -143,12 +143,12 @@ class LowRank(nn.Module):
         q_dir = F.normalize(q, dim=-1).unsqueeze(2)  # (50, 8, 1, 64)
 
         # Final projection: each k projected onto direction of q, scaled by cos_sim
-        cross_variance = cos_sim_exp @ q_dir  # (50, 8, 144, 64)
+        score = cos_sim_exp @ q_dir  # (50, 8, 144, 64)
         #######################################
         #print(cross_variance.shape)
         #exit(0)
         # Apply dropout to cross-variance
-        attn_map = self.dropout(cross_variance)
+        attn_map = self.dropout(score)
         #print(mask.shape)
         #exit(0)
 
