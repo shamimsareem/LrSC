@@ -126,14 +126,14 @@ class LowRank(nn.Module):
         #proj_matrix = torch.matmul(q_vec, qT)  # (50, 8, 64, 64)
 
         # Apply to each k vector: (50, 8, 144, 64) × (50, 8, 64, 64)
-        #cross_variance = torch.matmul(k, proj_matrix)  # (50, 8, 144, 64)
+        #score = torch.matmul(k, proj_matrix)  # (50, 8, 144, 64)
         ####################
         # Compute element-wise mean between q and k (assuming k is appropriately unsqueezed or reshaped to match q's dimensions)
         #mean_qk = (q.unsqueeze(-2) + k) / 2
 
         # Compute cross-variance
-        #cross_variance = (q.unsqueeze(-2) - mean_qk) ** 2 + (k - mean_qk) ** 2
-        #cross_variance = ((q.unsqueeze(-2) - mean_qk) ** 2 + (k - mean_qk) ** 2) / 2
+        #score = (q.unsqueeze(-2) - mean_qk) ** 2 + (k - mean_qk) ** 2
+        #score = ((q.unsqueeze(-2) - mean_qk) ** 2 + (k - mean_qk) ** 2) / 2
         ###################################
         # Compute cosine similarity
         cos_sim = F.cosine_similarity(q.unsqueeze(2), k, dim=-1)  # (50, 8, 144)
