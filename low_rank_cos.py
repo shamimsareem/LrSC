@@ -215,9 +215,9 @@ class LowRank(nn.Module):
         q_dir = F.normalize(q, dim=-1).unsqueeze(3)  # Shape: (50, 8, 17, 1, 64)
 
         # Final projection: each k projected onto the direction of q, scaled by cosine similarity
-        cross_variance = cos_sim_exp @ q_dir  # Shape: (50, 8, 17, 17, 64)
+        score = cos_sim_exp @ q_dir  # Shape: (50, 8, 17, 17, 64)
         ##################
-        attn_map = self.dropout(cross_variance)
+        attn_map = self.dropout(score)
         attn = self.attn_net.forward(attn_map, mask, v1, v2).transpose(1, 2).contiguous()
         attn = attn.view(batch_size, -1, self.num_heads * self.head_dim)
         return attn
